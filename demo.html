@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="./sha512.js"></script>
+    <script>
+        courseId = "Qut5ZeEBBF9AnKn8F";
+        apikey = "WrzSyALyJFYTHZdNX";
+        apikeysecret = "ca4a31d421820741145b2c0e";
+        actTimestamp = parseInt(new Date().getTime() / 1000);
+        apiurl = "https://testnutzen.blink.it/" + "api/v2/external/";
+
+        // You can find an example SHA512 implementation for Javascript here:
+        //   https://github.com/emn178/js-sha512
+        actHash = sha512("==" + actTimestamp + "=" + apikey + "=" + apikeysecret + "==");
+
+
+
+        $.ajax({
+            method: "GET",
+            contentType: "application/json; charset=UTF-8",
+            data: JSON.stringify({
+                members: [{
+                    firstname: "Lin",
+                    lastname: "Mei",
+                    email: "bewerber@blink.it"
+                }],
+                createLink: true
+            }),
+            url: apiurl + "course/" + courseId +
+                "/member?apikey=" + apikey + "&timestamp=" + actTimestamp + "&hash=" + actHash,
+            // url: apiurl + "course?apikey=" + apikey + "&timestamp=" + actTimestamp + "&hash=" + actHash,
+            // success: function(res) {
+            //     console.log(res);
+            // }
+            // url: apiurl + "ping?apikey=" + apikey + "&timestamp=" + actTimestamp + "&hash=" + actHash,
+            success: function(res) {
+                console.log(res);
+            }
+        });
+    </script>
+
+</body>
+
+</html>
